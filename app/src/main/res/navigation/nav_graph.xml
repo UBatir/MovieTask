@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="uz.example.movie.ui.main.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_movieFragment"
+            app:destination="@id/movieFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="uz.example.movie.ui.favorite.FavoriteFragment"
+        android:label="FavoriteFragment" />
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="uz.example.movie.ui.moview.MovieFragment"
+        android:label="MovieFragment" >
+        <argument
+            android:name="movie"
+            app:argType="uz.example.movie.data.model.Movie" />
+    </fragment>
+</navigation>

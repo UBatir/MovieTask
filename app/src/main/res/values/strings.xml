@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Movie</string>
+    <string name="search">Поиск</string>
+    <string name="ыуфкср">Поиск</string>
+    <string name="rank">Рейтинг:</string>
+    <string name="name">Название:</string>
+    <string name="overview">Описание:</string>
+</resources>
