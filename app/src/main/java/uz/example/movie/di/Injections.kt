@@ -10,7 +10,6 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import uz.example.movie.BuildConfig.BASE_URL
-import uz.example.movie.data.local.SharePref
 import uz.example.movie.data.remote.ApiInterface
 import uz.example.movie.domain.MainRepository
 import uz.example.movie.ui.favorite.FavoriteAdapter
@@ -62,12 +61,8 @@ val networkModule = module {
 
 }
 
-val helperModule = module {
-    single { SharePref(androidApplication().applicationContext) }
-}
-
 val repositoryModule = module {
-    single { MainRepository(get(), get(), get()) }
+    single { MainRepository(get()) }
 }
 
 val viewModelModule = module {

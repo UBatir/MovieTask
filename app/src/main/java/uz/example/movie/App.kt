@@ -19,7 +19,7 @@ class App : Application() {
 
         //Koin
         val modules = listOf(
-            networkModule,viewModelModule,adapterModule,repositoryModule, helperModule
+            networkModule,viewModelModule,adapterModule,repositoryModule
         )
         startKoin {
             androidLogger()

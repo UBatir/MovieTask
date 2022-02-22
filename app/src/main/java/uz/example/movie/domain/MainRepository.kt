@@ -1,16 +1,15 @@
 package uz.example.movie.domain
 
-import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import uz.example.focusstart.data.ErrorMessage
-import uz.example.movie.data.local.SharePref
-import uz.example.movie.data.model.*
+import uz.example.movie.data.model.Credit
+import uz.example.movie.data.model.Favorite
+import uz.example.movie.data.model.ResponseMovies
 import uz.example.movie.data.remote.ApiInterface
 
-class MainRepository(private val api: ApiInterface, private val gson:Gson, private val pref: SharePref) {
+class MainRepository(private val api: ApiInterface) {
 
     val API_KEY="4e2c762899812f405266d2b87ab36856"
     val SESSION_ID="d2e82d1c0dc65178821cd029af47f168a38f9e72"
@@ -21,11 +20,7 @@ class MainRepository(private val api: ApiInterface, private val gson:Gson, priva
             emit(Result.success(response.body()!!))
         }
         else{
-            var st = "Error in repository"
-            response.errorBody()?.let {
-                st = gson.fromJson(it.string(), ErrorMessage::class.java).message
-            }
-            emit(Result.failure<ResponseMovies>(Throwable(st)))
+            emit(Result.failure<ResponseMovies>(Throwable("Произошла ошибка")))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -35,11 +30,7 @@ class MainRepository(private val api: ApiInterface, private val gson:Gson, priva
             emit(Result.success(response.body()!!))
         }
         else{
-            var st = "Error in repository"
-            response.errorBody()?.let {
-                st = gson.fromJson(it.string(), ErrorMessage::class.java).message
-            }
-            emit(Result.failure<ResponseMovies>(Throwable(st)))
+            emit(Result.failure<ResponseMovies>(Throwable("Произошла ошибка")))
         }
     }.flowOn(Dispatchers.IO)
 

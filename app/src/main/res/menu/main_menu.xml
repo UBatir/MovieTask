@@ -3,13 +3,13 @@
     <group>
         <item android:id="@+id/mainFragment"
             android:title="Поиск"
+            android:checked="true"
+            android:color="@color/home"
             android:icon="@drawable/ic_search" />
-
-        <item android:id="@+id/deadlineListNamea"
-            android:title=""/>
 
         <item android:id="@+id/favoriteFragment"
             android:title="Избранные"
+            android:color="@color/documents"
             android:icon="@drawable/ic_favorite_border" />
     </group>
 </menu>

@@ -1,5 +1,6 @@
 package uz.example.movie.ui.favorite
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -23,6 +24,7 @@ class FavoriteFragment:Fragment(R.layout.fragment_favorite) {
     private val adapter by inject<FavoriteAdapter>()
     private val binding by viewBinding(FragmentFavoriteBinding::bind)
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)=binding.scope {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.adapter=adapter
@@ -35,12 +37,21 @@ class FavoriteFragment:Fragment(R.layout.fragment_favorite) {
         setUpObserver()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setUpObserver()=binding.scope{
         tvEmpty.visibility=View.GONE
         progressBar.visibility = View.VISIBLE
         viewModel.success.observe(viewLifecycleOwner,{
             progressBar.visibility = View.GONE
-            adapter.models=it.results
+            if (it.results.isNotEmpty()) {
+                tvEmpty.visibility=View.GONE
+                adapter.models=it.results.toMutableList()
+            }
+            else {
+                adapter.models.clear()
+                adapter.notifyDataSetChanged()
+                tvEmpty.visibility=View.VISIBLE
+            }
         })
         viewModel.error.observe(viewLifecycleOwner, {
             progressBar.visibility = View.GONE

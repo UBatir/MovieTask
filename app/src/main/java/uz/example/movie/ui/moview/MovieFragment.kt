@@ -22,7 +22,6 @@ class MovieFragment:Fragment(R.layout.fragment_movie) {
     private val viewModel by viewModel<MovieViewModel>()
     private val safeArgs:MovieFragmentArgs by navArgs()
     private val adapter: MovieAdapter by inject()
-    private var isFavorite=false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)=binding.scope {
         super.onViewCreated(view, savedInstanceState)
@@ -32,8 +31,7 @@ class MovieFragment:Fragment(R.layout.fragment_movie) {
         viewModel.getMovieCredits(id)
         setUpObserverActors()
         ivFavorite.setOnClickListener {
-            isFavorite=!isFavorite
-            setFavoriteIcon(id)
+            setFavoriteMovie(id)
         }
         btnBack.setOnClickListener {
             findNavController().popBackStack()
@@ -56,13 +54,8 @@ class MovieFragment:Fragment(R.layout.fragment_movie) {
         })
     }
 
-    private fun setFavoriteIcon(movieId:Int)=binding.scope {
-        if(isFavorite){
-            viewModel.setMovieToFavorite(Favorite("movie",movieId,true))
-            Toast.makeText(requireContext(), "Добавлено в избранные", Toast.LENGTH_SHORT).show()
-        }else{
-            viewModel.setMovieToFavorite(Favorite("movie",movieId,false))
-            Toast.makeText(requireContext(), "Удалено из избранных", Toast.LENGTH_SHORT).show()
-        }
+    private fun setFavoriteMovie(movieId:Int)=binding.scope {
+        viewModel.setMovieToFavorite(Favorite("movie",movieId,true))
+        Toast.makeText(requireContext(), "Добавлено в избранные", Toast.LENGTH_SHORT).show()
     }
 }

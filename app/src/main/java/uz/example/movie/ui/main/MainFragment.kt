@@ -1,5 +1,6 @@
 package uz.example.movie.ui.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,7 +18,6 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import uz.example.movie.R
-import uz.example.movie.data.local.SharePref
 import uz.example.movie.databinding.FragmentMainBinding
 import uz.example.movie.utils.scope
 
@@ -31,6 +31,7 @@ class MainFragment:Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = binding.scope {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.adapter=adapter
+        if (adapter.models.isNotEmpty()) tvEmpty.visibility=View.GONE
         recyclerView.addItemDecoration(DividerItemDecoration(
             requireContext(),
             LinearLayoutManager.VERTICAL
@@ -52,6 +53,7 @@ class MainFragment:Fragment(R.layout.fragment_main) {
                     textChangedJob = lifecycleScope.launch(Dispatchers.Main) {
                         delay(500L)
                         viewModel.getMovies(searchText)
+                        tvEmpty.visibility=View.GONE
                         setUpObserver()
                     }
                 }
@@ -60,17 +62,28 @@ class MainFragment:Fragment(R.layout.fragment_main) {
         adapter.setOnClickItem {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToMovieFragment(it))
         }
+
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setUpObserver()=binding.scope{
         tvEmpty.visibility=View.GONE
         progressBar.visibility = View.VISIBLE
         viewModel.success.observe(viewLifecycleOwner,{
             progressBar.visibility = View.GONE
-            adapter.models=it.results
+            if (it.results.isNotEmpty()) {
+                tvEmpty.visibility=View.GONE
+                adapter.models=it.results.toMutableList()
+            }
+            else tvEmpty.visibility=View.VISIBLE
         })
         viewModel.error.observe(viewLifecycleOwner, {
             progressBar.visibility = View.GONE
+            if (searchView.text.isNullOrEmpty()) {
+                adapter.models.clear()
+                adapter.notifyDataSetChanged()
+                tvEmpty.visibility=View.VISIBLE
+            }
         })
     }
 

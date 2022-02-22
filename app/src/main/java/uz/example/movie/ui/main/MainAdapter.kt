@@ -16,7 +16,7 @@ import uz.example.movie.utils.scope
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
-    var models: List<Movie> = listOf()
+    var models: MutableList<Movie> = mutableListOf()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value

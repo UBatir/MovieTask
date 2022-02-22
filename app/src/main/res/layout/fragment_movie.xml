@@ -43,6 +43,8 @@
                 android:id="@+id/ivFavorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:src="@drawable/ic_favorite_border"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivMovie"
@@ -61,10 +63,11 @@
 
             <TextView
                 android:id="@+id/tvOriginalTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/ivFavorite"
                 app:layout_constraintStart_toEndOf="@id/Name"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/margin_standard"
                 android:layout_marginHorizontal="8dp"
                 android:textStyle="bold"

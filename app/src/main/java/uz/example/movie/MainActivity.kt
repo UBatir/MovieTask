@@ -2,28 +2,30 @@ package uz.example.movie
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
-import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.example.movie.databinding.ActivityMainBinding
-import uz.example.movie.utils.scope
+import uz.example.movie.utils.onNavDestinationSelected
 
 class MainActivity : AppCompatActivity() {
 
-    private val binding by viewBinding(ActivityMainBinding::bind)
+    private lateinit var binding:ActivityMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setUpBottomNav()
-        //setAppBarCorersRadius()
-    }
-
-    private fun setUpBottomNav()=binding.scope{
+        binding= ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_container) as NavHostFragment
-        val navController: NavController = navHostFragment.navController
-        NavigationUI.setupWithNavController(binding.bnvMain, navController)
+        val navController = navHostFragment.navController
+        binding.apply {
+            bottomNavigation.addBubbleListener{id->
+                onNavDestinationSelected(id,navController)
+            }
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                bottomNavigation.setSelectedWithId(destination.id, false)
+            }
+        }
+        /*
+        val navView: BottomNavigationView = findViewById(R.id.bottomNavigation)
+        navView.setupWithNavController(navController)*/
     }
 }

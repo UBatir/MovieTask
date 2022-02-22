@@ -31,6 +31,6 @@ class MovieViewModel(private val mainRepository:MainRepository): ViewModel() {
     }
 
     fun setMovieToFavorite(favoriteMovie:Favorite){
-        mainRepository.setMovieToFavorite(favoriteMovie).onEach {  }.launchIn(viewModelScope)
+        mainRepository.setMovieToFavorite(favoriteMovie).launchIn(viewModelScope)
     }
 }
